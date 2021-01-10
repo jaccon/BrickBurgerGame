@@ -1,21 +1,62 @@
 import { StatusBar } from 'expo-status-bar';
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { 
+  StyleSheet, 
+  Text, 
+  View, 
+  Image } from 'react-native';
 
-export default function App() {
-  return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
-  );
+  import { Audio } from 'expo-av';
+
+import Main from './src/main';
+import Sounds from './src/components/SoundBackground';
+
+
+export default class AppContainer extends React.Component {
+  state = {
+    assetsLoaded: false,
+  }
+
+  async componentDidMount() {
+    const playbackObject = await Audio.Sound.createAsync(
+      require('./assets/sounds/tetris.mp3'),
+      { shouldPlay: true, isLooping: true }
+    );
+    playbackObject.playAsync();
+  }
+
+  render() {
+    return (
+      <View 
+        style={{flex: 1, backgroundColor: '#c9232f', width: '100%'}}
+      >
+          <Main />
+      </View>
+    );
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
+    flexDirection: "column"
   },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center"
+  },
+  logo: {
+    flex: 1,
+    resizeMode: "cover",
+    justifyContent: "center",
+    alignContent: "center"
+  },
+  text: {
+    color: "white",
+    fontSize: 42,
+    fontWeight: "bold",
+    textAlign: "center",
+    backgroundColor: "#000000a0"
+  }
 });
